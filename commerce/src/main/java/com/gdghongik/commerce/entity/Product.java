@@ -9,8 +9,10 @@ import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+/**
+ * 바깥에서 값을 마음대로 바꿀 수 없도록 @Setter 를 두지 않습니다.
+ */
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,21 +42,27 @@ public class Product {
         this.status = SellingStatus.STOPPED;
     }
 
-    public void decreaseStock(int quantity) {
-        if (quantity <= 0) {
+    /**
+     * 재고를 quantity만큼 줄입니다.
+     *
+     * 재고를 줄여도 되는지에 대한 판단은 변경되는 주체인 Product 엔티티가 직접 판단한다.
+     */
+    public void decreaseStock(Quantity quantity) { // 기존 int quantity 파라미터를 Quantity quantity로 변경
+        /*if (quantity <= 0) {
             throw new IllegalArgumentException("수량은 1개 이상이어야 합니다.");
-        }
+        }*/ // Quantity 객체가 1 이상임을 보장하므로 검증 코드 제거
         if (this.status != SellingStatus.SELLING) {
             throw new IllegalStateException("판매 중인 상품이 아닙니다.");
         }
-        if (this.stock < quantity) {
+        if (this.stock < quantity.value()) {
             throw new IllegalStateException("재고가 부족합니다. 남은 재고=" + this.stock);
         }
 
-        this.stock -= quantity;
+        this.stock -= quantity.value(); // 이제 quantity.value()로 접근
 
         if (this.stock == 0) {
             this.status = SellingStatus.SOLD_OUT;
         }
     }
+
 }
