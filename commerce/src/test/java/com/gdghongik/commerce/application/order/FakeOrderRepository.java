@@ -2,11 +2,10 @@ package com.gdghongik.commerce.application.order;
 
 import com.gdghongik.commerce.domain.order.Order;
 import com.gdghongik.commerce.domain.order.OrderRepository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -16,7 +15,7 @@ public class FakeOrderRepository implements OrderRepository {
     private long sequence = 0L;
 
     @Override
-    public Order save(Order order){
+    public Order save(Order order) {
         if (order.getId() == null) {
             ReflectionTestUtils.setField(order, "id", ++sequence);
         }

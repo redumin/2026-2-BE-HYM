@@ -2,11 +2,10 @@ package com.gdghongik.commerce.infrastructure.persistence;
 
 import com.gdghongik.commerce.domain.product.Product;
 import com.gdghongik.commerce.domain.product.ProductRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,13 +14,19 @@ public class ProductRepositoryAdapter implements ProductRepository {
     private final ProductJpaRepository jpaRepository;
 
     @Override
-    public Product save(Product product){
+    public Product save(Product product) {
         return jpaRepository.save(product);
     }
 
     @Override
     public Optional<Product> findById(Long id) {
         return jpaRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Product> findByIdWithLock(Long id) {
+        // TODO[W4-3]: ProductJpaRepository의 잠금 조회 메서드에 위임하세요.
+        throw new UnsupportedOperationException("TODO[W4-3]");
     }
 
     @Override

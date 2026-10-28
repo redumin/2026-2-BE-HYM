@@ -2,7 +2,6 @@ package com.gdghongik.commerce.application.product;
 
 import com.gdghongik.commerce.domain.common.Quantity;
 import com.gdghongik.commerce.domain.product.Product;
-import com.gdghongik.commerce.infrastructure.persistence.ProductJpaRepository;
 import com.gdghongik.commerce.domain.product.ProductRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,9 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public List<Product> findAll() { return productRepository.findAll(); }
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
 
     public Product findById(Long productId) {
         return productRepository.findById(productId)
