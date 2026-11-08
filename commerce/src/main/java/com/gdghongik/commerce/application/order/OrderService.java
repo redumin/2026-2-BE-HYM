@@ -26,19 +26,10 @@ public class OrderService {
     @Transactional
     public Long place(CreateOrderCommand command) {
 
-        /* test를 위해 잠시 비활성화
-        // TODO[W4-4]: 상품 조회에 findByIdWithLock()을 사용하도록 변경하세요.
-        Product product = productRepository.findByIdWithLock(command.productId())
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "상품이 존재하지 않습니다. id=" + command.productId()));
-        */
-
-        // 낙관적 락 테스트를 위해 비관적 락(findByIdWithLock) 대신 일반 조회(findById) 사용
         Product product = productRepository.findById(command.productId())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "상품이 존재하지 않습니다. id=" + command.productId()));
 
-        // TODO[W4-0]: 주문할 상품의 재고를 주문 수량만큼 차감하세요.
         product.decreaseStock(Quantity.of(command.quantity()));
 
         OrderItem item = OrderItem.create(
